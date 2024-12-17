@@ -1,0 +1,94 @@
+{% schema %}
+{
+  "name": "Collection List",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured Collections"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "slider",
+          "label": "Slider"
+        }
+      ],
+      "default": "grid"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Collection List",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="collection-list py-16">
+  <div class="page-width">
+    <h2 class="text-center text-3xl font-bold mb-12">{{ section.settings.title }}</h2>
+    
+    <div class="{% if section.settings.layout == 'grid' %}grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8{% else %}collection-slider{% endif %}">
+      {% for block in section.blocks %}
+        {% if block.settings.collection != blank %}
+          <div class="collection-item relative overflow-hidden rounded-lg group">
+            {% if block.settings.image %}
+              <img src="{{ block.settings.image | img_url: '600x600', crop: 'center' }}"
+                   alt="{{ block.settings.collection.title }}"
+                   class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+            {% else %}
+              {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'w-full h-64 bg-gray-200' }}
+            {% endif %}
+            
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+              <h3 class="text-white text-2xl font-bold">
+                {{ block.settings.collection.title }}
+              </h3>
+            </div>
+            
+            <a href="{{ block.settings.collection.url }}" class="absolute inset-0" aria-label="View {{ block.settings.collection.title }}"></a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

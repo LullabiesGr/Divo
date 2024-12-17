@@ -1,0 +1,56 @@
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Shop the latest trends"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="relative min-h-screen grid-background">
+  {% if section.settings.background_image %}
+    <div class="absolute inset-0">
+      <img src="{{ section.settings.background_image | img_url: '2000x' }}" 
+           alt="" 
+           class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+    </div>
+  {% endif %}
+
+  <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+    <h1 class="glitch text-4xl md:text-6xl font-bold text-white mb-8" 
+        data-text="{{ section.settings.heading }}">
+      {{ section.settings.heading }}
+    </h1>
+    
+    <p class="terminal-text text-xl text-cyber-blue mb-12" 
+       data-text="{{ section.settings.subheading }}">
+      {{ section.settings.subheading }}
+    </p>
+    
+    <div class="flex gap-4">
+      <a href="/collections" class="hover-glow btn-primary">
+        Explore Collections
+      </a>
+      <a href="/products" class="hover-glow btn-secondary">
+        View Products
+      </a>
+    </div>
+  </div>
+</div>

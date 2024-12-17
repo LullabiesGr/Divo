@@ -1,0 +1,42 @@
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Free shipping on orders over $100"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ]
+}
+{% endschema %}
+
+{% if section.settings.show_announcement %}
+  <div class="announcement-bar" 
+       style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};">
+    <div class="page-width text-center py-1">
+      <p class="announcement-bar__message text-sm">
+        {{ section.settings.announcement_text }}
+      </p>
+    </div>
+  </div>
+{% endif %}
